@@ -13,7 +13,7 @@ This is a JSON parser written in C for parsing JSON data. It includes error hand
 - Efficient and fast parsing
 - Memory cleanup
 
-##Examples
+## Examples
 
 Examples can be found in `tests.h` and `examples.h`
 
