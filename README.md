@@ -1,9 +1,9 @@
 # SoftJson
 
-##About
+## About
 This is a JSON parser written in C for parsing JSON data. It includes error handling with information about the error that occurred.
 
-##Features
+## Features
 
 - Parse JSON from a string
 - Parse JSON from a file
