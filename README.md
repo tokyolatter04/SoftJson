@@ -1,7 +1,7 @@
 # SoftJson
 
 ## About
-This is a JSON parser written in C for parsing JSON data. It includes error handling with information about the error that occurred.
+This is a JSON parser written in C for parsing JSON data. It includes error handling with information about the error that occurred. This parser currently does not support unicode
 
 ## Features
 
@@ -13,7 +13,6 @@ This is a JSON parser written in C for parsing JSON data. It includes error hand
 - Efficient and fast parsing
 - Memory cleanup
 - Customise Hardware Priority
-
 - Currently does NOT support unicode
 
 ## Hardware Priority
