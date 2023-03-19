@@ -3,6 +3,11 @@
 
 int main(void) {
 
+	// Prioritise memory efficiency over speed
+	// (Engine wastes less memory, but can be slower when parsing large data)
+
+	soft_set_engine_mode(JSON_MODE_PRIORITY_MEMORY);
+	
 	// Create animal
 
 	JsonObject animal = json_create_object();
