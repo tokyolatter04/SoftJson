@@ -1,7 +1,5 @@
 
 #include "include/softjson.h"
-#include "tests.h"
-#include "examples.h"
 
 int main(void) {
 
