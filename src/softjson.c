@@ -7,8 +7,6 @@
 #include "../include/internal/io.h"
 #include "../include/internal/serialisation.h"
 
-#include <time.h>
-
 JsonHandler soft_create_handler() {
 	return (JsonHandler) {
 		.error = error_init()
