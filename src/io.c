@@ -4,10 +4,12 @@
 #include <string.h>
 #include "../include/internal/io.h"
 
-uint8 file_read_all_text(char* filepath, char** text) {
-	FILE* fp = fopen(filepath, "rb");
+uint8 file_read_all_text(char *filepath, char **text)
+{
+	FILE *fp = fopen(filepath, "rb");
 
-	if (!fp) {
+	if (!fp)
+	{
 		// Error accessing filepath
 
 		return FAILURE;
@@ -21,7 +23,7 @@ uint8 file_read_all_text(char* filepath, char** text) {
 
 	// Read bytes into a buffer & close file
 
-	char* data = malloc(sizeof(char) * (fsize + 1));
+	char *data = malloc(sizeof(char) * (fsize + 1));
 	fread(data, sizeof(char), fsize, fp);
 	fclose(fp);
 
@@ -31,10 +33,12 @@ uint8 file_read_all_text(char* filepath, char** text) {
 	return SUCCESS;
 }
 
-uint8 file_write_all_text(char* filepath, char* text) {
-	FILE* fp = fopen(filepath, "wb");
+uint8 file_write_all_text(char *filepath, char *text)
+{
+	FILE *fp = fopen(filepath, "wb");
 
-	if (!fp) {
+	if (!fp)
+	{
 		// Error accessing filepath
 
 		return FAILURE;

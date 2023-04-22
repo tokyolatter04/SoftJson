@@ -6,14 +6,16 @@
 
 #include "include/softjson.h"
 
-void run_sample_test(char* filepath) {
+void run_sample_test(char *filepath)
+{
 	JsonHandler handler = soft_create_handler();
 
 	// Read File
 
-	char* source;
+	char *source;
 
-	if (!file_read_all_text(filepath, &source)) {
+	if (!file_read_all_text(filepath, &source))
+	{
 		return;
 	}
 
@@ -28,13 +30,16 @@ void run_sample_test(char* filepath) {
 			'i' - Parser can either accept or reject input
 	*/
 
-	if (!handler.error.exists) {
-		if (filepath[14] == 'y' || filepath[14] == 'i') {
+	if (!handler.error.exists)
+	{
+		if (filepath[14] == 'y' || filepath[14] == 'i')
+		{
 			// Parser passed a test it was supposed to pass (result: SUCCESS)
 
 			printf("<passed: YES, result: PARSE_SUCCESS, file: %s>\n", filepath);
 		}
-		else {
+		else
+		{
 			// Parser passed a test it was supposed to fail (result: FAILURE)
 
 			printf("<passed: NO, result: PARSE_FAILURE, file: %s>\n", filepath);
@@ -42,13 +47,16 @@ void run_sample_test(char* filepath) {
 
 		json_value_free(&value, TRUE);
 	}
-	else {
-		if (filepath[14] == 'n' || filepath[14] == 'i') {
+	else
+	{
+		if (filepath[14] == 'n' || filepath[14] == 'i')
+		{
 			// Parser failed a test it was supposed to fail (result: SUCCESS)
 
 			printf("<passed: NO, result: PARSE_SUCCESS, file: %s, log: %s>\n", filepath, handler.error.log);
 		}
-		else {
+		else
+		{
 			// Parser failed a test it was supposed to pass (result: FAILURE)
 
 			printf("<passed: YES, result: PARSE_FAILURE, file: %s, log: %s>\n", filepath, handler.error.log);
@@ -56,7 +64,8 @@ void run_sample_test(char* filepath) {
 	}
 }
 
-void run_all_sample_tests() {
+void run_all_sample_tests()
+{
 	WIN32_FIND_DATA fdata;
 	HANDLE hFind;
 
@@ -73,8 +82,9 @@ void run_all_sample_tests() {
 	FindClose(hFind);
 }
 
-void run_load_string_test() {
-	char* string = "{				\
+void run_load_string_test()
+{
+	char *string = "{				\
 		\"name\": \"John\",			\
 		\"age\": 20,				\
 		\"gender\": \"male\",		\
@@ -92,17 +102,20 @@ void run_load_string_test() {
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-	if (handler.error.exists) {
+	if (handler.error.exists)
+	{
 		printf("[TEST_ERROR] Time: %g ms, At: run_load_string_test, Log: %s\n", time_spent, handler.error.log);
 	}
-	else {
+	else
+	{
 		printf("[TEST_SUCCESS] Time: %g ms, At: run_load_string_test\n", time_spent);
 
 		json_value_free(&value, TRUE);
 	}
 }
 
-void run_load_file_test() {
+void run_load_file_test()
+{
 	JsonHandler handler = soft_create_handler();
 
 	clock_t begin = clock();
@@ -110,17 +123,20 @@ void run_load_file_test() {
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-	if (handler.error.exists) {
+	if (handler.error.exists)
+	{
 		printf("[TEST_ERROR] Time: %g ms, At: run_load_string_test, Log: %s\n", time_spent, handler.error.log);
 	}
-	else {
+	else
+	{
 		printf("[TEST_SUCCESS] Time: %g ms, At: run_load_string_test\n", time_spent);
 
 		json_value_free(&value, TRUE);
 	}
 }
 
-void run_dump_string_test() {
+void run_dump_string_test()
+{
 	// Build Data
 
 	JsonList hobbies = json_create_list();
@@ -145,17 +161,20 @@ void run_dump_string_test() {
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
-	if (handler.error.exists) {
+	if (handler.error.exists)
+	{
 		printf("[TEST_ERROR] Time: %g ms, At: run_dump_string_test, Log: %s\n", time_spent, handler.error.log);
 	}
-	else {
+	else
+	{
 		printf("[TEST_SUCCESS] Time: %g ms, At: run_dump_string_test\n", time_spent);
 
 		json_value_free(&person, FALSE);
 	}
 }
 
-void run_dump_file_test() {
+void run_dump_file_test()
+{
 	// Build Data
 
 	JsonList hobbies = json_create_list();
@@ -176,17 +195,20 @@ void run_dump_file_test() {
 	JsonHandler handler = soft_create_handler();
 	soft_dump_file(&handler, json_create_object_value(person), "tests/run_dump_file_test.json");
 
-	if (handler.error.exists) {
+	if (handler.error.exists)
+	{
 		printf("[TEST_ERROR] At: run_dump_file_test, Log: %s\n", handler.error.log);
 	}
-	else {
+	else
+	{
 		printf("[TEST_SUCCESS] At: run_dump_file_test\n");
 
 		json_object_free(&person, FALSE);
 	}
 }
 
-void run_all_tests() {
+void run_all_tests()
+{
 	run_load_string_test();
 	run_load_file_test();
 	run_dump_string_test();

@@ -10,19 +10,22 @@
 /////////// INTERNAL LEXER CODE ////////////
 ////////////////////////////////////////////
 
-#define EMPTY_TOKEN								(Token) { .type = 0, .value = 0 };
+#define EMPTY_TOKEN (Token){.type = 0, .value = 0};
 
 /*
 	Advance to the next character in the Lexer's source string
 */
 
-static void advance(Lexer* lexer) {
+static void advance(Lexer *lexer)
+{
 	lexer->index++;
 
-	if (lexer->length > lexer->index) {
+	if (lexer->length > lexer->index)
+	{
 		lexer->character = lexer->source[lexer->index];
 	}
-	else {
+	else
+	{
 		lexer->character = CHAR_EOF;
 	}
 }
@@ -31,7 +34,8 @@ static void advance(Lexer* lexer) {
 	Advance with a symbol token (no value required)
 */
 
-static Token advance_with_symbol(Lexer* lexer, TokenType type) {
+static Token advance_with_symbol(Lexer *lexer, TokenType type)
+{
 	// Advance with a syntax token
 
 	advance(lexer);
@@ -42,10 +46,12 @@ static Token advance_with_symbol(Lexer* lexer, TokenType type) {
 	Skip all whitespace characters until a non-whitespace character is found
 */
 
-static void skip_whitespace(Lexer* lexer) {
+static void skip_whitespace(Lexer *lexer)
+{
 	// Advance past the current character while it is a whitespace character
 
-	while (char_is_whitespace(lexer->character)) {
+	while (char_is_whitespace(lexer->character))
+	{
 		advance(lexer);
 	}
 }
@@ -54,12 +60,14 @@ static void skip_whitespace(Lexer* lexer) {
 	Build a token with a number
 */
 
-static Token build_number_token(Lexer* lexer) {
+static Token build_number_token(Lexer *lexer)
+{
 	CharList string = char_list_init(0);
 
 	// Append the char while it is a numerical character
 
-	while (char_is_numerical(lexer->character)) {
+	while (char_is_numerical(lexer->character))
+	{
 		char_list_add(&string, lexer->character);
 		advance(lexer);
 	}
@@ -77,7 +85,8 @@ static Token build_number_token(Lexer* lexer) {
 	Build a token with a string
 */
 
-static Token build_string_token(Lexer* lexer) {
+static Token build_string_token(Lexer *lexer)
+{
 	CharList string = char_list_init(0);
 	uint8 string_escaped = FALSE;
 
@@ -87,32 +96,34 @@ static Token build_string_token(Lexer* lexer) {
 
 	// String has ended if it encounters a '"' or an EOF (null termination)
 
-	while (lexer->character != CHAR_QUOTE && lexer->character != CHAR_EOF) {
+	while (lexer->character != CHAR_QUOTE && lexer->character != CHAR_EOF)
+	{
 
-		if (lexer->character == '\\') {
+		if (lexer->character == '\\')
+		{
 			// Escape character
 
 			char_list_add(&string, lexer->character);
 			advance(lexer);
 
-			switch (lexer->character) {
-				case '\\':
-				case '"':
-				case '/':
-				case 'b':
-				case 'f':
-				case 'n':
-				case 'r':
-				case 't':
-					break;
-				default:
-					RAISE_FATAL_ERROR(
-						lexer->error,
-						ERROR_INVALID_ESCAPE_CHARACTER,
-						lexer->character
-					);
+			switch (lexer->character)
+			{
+			case '\\':
+			case '"':
+			case '/':
+			case 'b':
+			case 'f':
+			case 'n':
+			case 'r':
+			case 't':
+				break;
+			default:
+				RAISE_FATAL_ERROR(
+					lexer->error,
+					ERROR_INVALID_ESCAPE_CHARACTER,
+					lexer->character);
 
-					return EMPTY_TOKEN;
+				return EMPTY_TOKEN;
 			}
 		}
 
@@ -137,12 +148,14 @@ static Token build_string_token(Lexer* lexer) {
 	Build a token with a keyword
 */
 
-static Token build_keyword_token(Lexer* lexer) {
+static Token build_keyword_token(Lexer *lexer)
+{
 	CharList string = char_list_init(0);
 
 	// Only alphabetical characters are allowed (A-Z/a-z)
 
-	while (char_is_alphabetical(lexer->character)) {
+	while (char_is_alphabetical(lexer->character))
+	{
 		char_list_add(&string, lexer->character);
 		advance(lexer);
 	}
@@ -155,23 +168,26 @@ static Token build_keyword_token(Lexer* lexer) {
 
 	TokenType type;
 
-	if (string_compare(string.buffer, KEYWORD_TRUE)) {
+	if (string_compare(string.buffer, KEYWORD_TRUE))
+	{
 		type = TOKEN_TYPE_TRUE;
 	}
-	else if (string_compare(string.buffer, KEYWORD_FALSE)) {
+	else if (string_compare(string.buffer, KEYWORD_FALSE))
+	{
 		type = TOKEN_TYPE_FALSE;
 	}
-	else if (string_compare(string.buffer, KEYWORD_NULL)) {
+	else if (string_compare(string.buffer, KEYWORD_NULL))
+	{
 		type = TOKEN_TYPE_NULL;
 	}
-	else {
+	else
+	{
 		// Unrecognised keyword type
 
 		RAISE_FATAL_ERROR(
 			lexer->error,
 			ERROR_TYPE_UNRECOGNISED_KEYWORD,
-			string.buffer
-		);
+			string.buffer);
 
 		return EMPTY_TOKEN;
 	}
@@ -189,37 +205,42 @@ static Token build_keyword_token(Lexer* lexer) {
 	Build next token using the Lexer's current character
 */
 
-static Token build_next_token(Lexer* lexer) {
+static Token build_next_token(Lexer *lexer)
+{
 	skip_whitespace(lexer);
 
 	// Find syntax (single-character) tokens
 
-	switch (lexer->character) {
-		case CHAR_COMMA:
-			return advance_with_symbol(lexer, TOKEN_TYPE_COMMA);
-		case CHAR_COLON:
-			return advance_with_symbol(lexer, TOKEN_TYPE_COLON);
-		case CHAR_LCURLY:
-			return advance_with_symbol(lexer, TOKEN_TYPE_LCURLY);
-		case CHAR_RCURLY:
-			return advance_with_symbol(lexer, TOKEN_TYPE_RCURLY);
-		case CHAR_LBRACKET:
-			return advance_with_symbol(lexer, TOKEN_TYPE_LBRACKET);
-		case CHAR_RBRACKET:
-			return advance_with_symbol(lexer, TOKEN_TYPE_RBRACKET);
-		case CHAR_EOF:
-			return token_init(TOKEN_TYPE_EOF, NULL);
+	switch (lexer->character)
+	{
+	case CHAR_COMMA:
+		return advance_with_symbol(lexer, TOKEN_TYPE_COMMA);
+	case CHAR_COLON:
+		return advance_with_symbol(lexer, TOKEN_TYPE_COLON);
+	case CHAR_LCURLY:
+		return advance_with_symbol(lexer, TOKEN_TYPE_LCURLY);
+	case CHAR_RCURLY:
+		return advance_with_symbol(lexer, TOKEN_TYPE_RCURLY);
+	case CHAR_LBRACKET:
+		return advance_with_symbol(lexer, TOKEN_TYPE_LBRACKET);
+	case CHAR_RBRACKET:
+		return advance_with_symbol(lexer, TOKEN_TYPE_RBRACKET);
+	case CHAR_EOF:
+		return token_init(TOKEN_TYPE_EOF, NULL);
 	}
 
 	// Find multi-character tokens
 
-	if (char_is_numerical(lexer->character)) {
+	if (char_is_numerical(lexer->character))
+	{
 		return build_number_token(lexer);
 	}
-	else if (char_is_alphabetical(lexer->character)) {
+	else if (char_is_alphabetical(lexer->character))
+	{
 		return build_keyword_token(lexer);
 	}
-	else if (lexer->character == CHAR_QUOTE) {
+	else if (lexer->character == CHAR_QUOTE)
+	{
 		return build_string_token(lexer);
 	}
 
@@ -228,8 +249,7 @@ static Token build_next_token(Lexer* lexer) {
 	RAISE_FATAL_ERROR(
 		lexer->error,
 		ERROR_TYPE_UNRECOGNISED_TOKEN,
-		lexer->character
-	);
+		lexer->character);
 
 	return EMPTY_TOKEN;
 }
@@ -242,34 +262,37 @@ static Token build_next_token(Lexer* lexer) {
 	Create Lexer struct from source string
 */
 
-Lexer lexer_init(char* source) {
-	return (Lexer) {
+Lexer lexer_init(char *source)
+{
+	return (Lexer){
 		.source = source,
 		.length = strlen(source),
 		.character = source[0],
 		.index = 0,
-		.error = error_init()
-	};
+		.error = error_init()};
 }
 
 /*
 	Get result from a Lexer struct
 */
 
-TokenList lexer_get_result(Lexer* lexer) {
+TokenList lexer_get_result(Lexer *lexer)
+{
 	TokenList tokens = token_list_init(0);
 	Token token;
 
 	// Continue until an EOF token is found, signaling the end of the source string
 
-	do {
+	do
+	{
 		// Generate next token to use
 
 		token = build_next_token(lexer);
 
 		// Do not continue if an error was found
 
-		if (lexer->error.exists) {
+		if (lexer->error.exists)
+		{
 			break;
 		}
 
