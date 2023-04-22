@@ -1,7 +1,7 @@
 
 #pragma once
 
-#define JSON_MODE_PRIORITY_DEFAULT			JSON_MODE_PRIORITY_PROCESSOR
+#define JSON_MODE_PRIORITY_DEFAULT JSON_MODE_PRIORITY_PROCESSOR
 
 /*
 	JSON_MODE_PRIORITY_PROCESSOR
@@ -10,7 +10,8 @@
 		Be memory efficient if it is at the cost of speed
 */
 
-typedef enum _JsonMode {
+typedef enum _JsonMode
+{
 	JSON_MODE_PRIORITY_PROCESSOR,
 	JSON_MODE_PRIORITY_MEMORY
 } JsonMode;

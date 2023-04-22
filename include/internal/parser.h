@@ -5,9 +5,10 @@
 #include "objects.h"
 #include "error.h"
 
-typedef struct _Parser {
+typedef struct _Parser
+{
 	TokenList tokens;
-	Token* token;
+	Token *token;
 	uint64 index;
 	Error error;
 } Parser;
@@ -18,4 +19,4 @@ Parser parser_init(TokenList tokens);
 
 // Build a json value using a Parser
 
-JsonValue parser_get_result(Parser* parser);
+JsonValue parser_get_result(Parser *parser);

@@ -7,12 +7,12 @@
 /////////// JSON DATA TYPES ////////////
 ////////////////////////////////////////
 
-typedef JsonPairList						JsonObject;
-typedef JsonValueList						JsonList;
-typedef int64								JsonInt;
-typedef float64								JsonFloat;
-typedef const char*							JsonString;
-typedef bool8								JsonBool;
+typedef JsonPairList JsonObject;
+typedef JsonValueList JsonList;
+typedef int64 JsonInt;
+typedef float64 JsonFloat;
+typedef const char *JsonString;
+typedef bool8 JsonBool;
 
 // Create a new JsonObject
 
@@ -20,15 +20,15 @@ JsonObject json_create_object();
 
 // Append a JsonPair to a JsonObject
 
-void json_object_add(JsonObject* object, const char* key, struct _JsonValue value);
+void json_object_add(JsonObject *object, const char *key, struct _JsonValue value);
 
 // Get a JsonPair by index in a JsonObject
 
-struct _JsonPair* json_object_get(JsonObject* object, uint64 index);
+struct _JsonPair *json_object_get(JsonObject *object, uint64 index);
 
 // Get a JsonPair by key reference in a JsonObject
 
-bool8 json_object_get_value(JsonObject* object, const char* key, struct _JsonValue** value);
+bool8 json_object_get_value(JsonObject *object, const char *key, struct _JsonValue **value);
 
 // Create a new JsonList
 
@@ -36,13 +36,14 @@ JsonList json_create_list();
 
 // Append a JsonValue to a JsonList
 
-void json_list_add(JsonList* list, struct _JsonValue value);
+void json_list_add(JsonList *list, struct _JsonValue value);
 
 // Get a JsonValue by index in a JsonList
 
-struct _JsonValue* json_list_get(JsonList* list, uint64 index);
+struct _JsonValue *json_list_get(JsonList *list, uint64 index);
 
-typedef enum _JsonType {
+typedef enum _JsonType
+{
 	// Containers
 
 	JSON_DATA_TYPE_OBJECT,
@@ -66,10 +67,12 @@ typedef enum _JsonType {
 /////////// JSON VALUE ////////////
 ///////////////////////////////////
 
-typedef struct _JsonValue {
+typedef struct _JsonValue
+{
 	JsonType type;
 
-	union {
+	union
+	{
 		JsonObject _object;
 		JsonList _list;
 		JsonInt _int;
@@ -80,7 +83,7 @@ typedef struct _JsonValue {
 
 // Create a JsonValue with a type and memory buffer
 
-JsonValue json_create_value(JsonType type, void* data);
+JsonValue json_create_value(JsonType type, void *data);
 
 // Create a JsonValue with a JsonObject
 
@@ -114,19 +117,20 @@ JsonValue json_create_null_value();
 /////////// JSON PAIR ////////////
 //////////////////////////////////
 
-typedef struct _JsonPair {
-	char* key;
+typedef struct _JsonPair
+{
+	char *key;
 	JsonValue value;
 } JsonPair;
 
-JsonPair json_create_pair(const char* key, JsonValue value);
+JsonPair json_create_pair(const char *key, JsonValue value);
 
 ///////////////////////////////////////
 /////////// MEMORY FREEING ////////////
 ///////////////////////////////////////
 
-void json_object_free(JsonObject* object, bool8 loaded);
-void json_list_free(JsonList* list, bool8 load);
-void json_string_free(JsonString* string, bool8 loaded);
-void json_value_free(JsonValue* value, bool8 loaded);
-void json_pair_free(JsonPair* pair, bool8 loaded);
+void json_object_free(JsonObject *object, bool8 loaded);
+void json_list_free(JsonList *list, bool8 load);
+void json_string_free(JsonString *string, bool8 loaded);
+void json_value_free(JsonValue *value, bool8 loaded);
+void json_pair_free(JsonPair *pair, bool8 loaded);

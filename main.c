@@ -1,13 +1,14 @@
 
 #include "include/softjson.h"
 
-int main(void) {
+int main(void)
+{
 
 	// Prioritise memory efficiency over speed
 	// (Engine wastes less memory, but can be slower when parsing large data)
 
 	soft_set_engine_mode(JSON_MODE_PRIORITY_MEMORY);
-	
+
 	// Create animal
 
 	JsonObject animal = json_create_object();
@@ -20,7 +21,7 @@ int main(void) {
 	// Output animal
 
 	JsonHandler handler = soft_create_handler();
-	char* serial = soft_dump_string(&handler, json_create_object_value(animal));
+	char *serial = soft_dump_string(&handler, json_create_object_value(animal));
 
 	// Data: {"name":"Polar Bear","age":22,"weight-kg":1130,"is-mammal":true}
 	printf("Data: %s\n", serial);

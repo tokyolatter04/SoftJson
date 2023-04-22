@@ -3,22 +3,23 @@
 
 // Char values of syntax tokens
 
-#define CHAR_COMMA							','
-#define CHAR_COLON							':'
-#define CHAR_QUOTE							'"'
-#define CHAR_LBRACKET						'['
-#define CHAR_RBRACKET						']'
-#define CHAR_LCURLY							'{'
-#define CHAR_RCURLY							'}'
-#define CHAR_EOF							'\0'
+#define CHAR_COMMA ','
+#define CHAR_COLON ':'
+#define CHAR_QUOTE '"'
+#define CHAR_LBRACKET '['
+#define CHAR_RBRACKET ']'
+#define CHAR_LCURLY '{'
+#define CHAR_RCURLY '}'
+#define CHAR_EOF '\0'
 
 // String values of keyword tokens
 
-#define KEYWORD_TRUE						"true"
-#define KEYWORD_FALSE						"false"
-#define KEYWORD_NULL						"null"
+#define KEYWORD_TRUE "true"
+#define KEYWORD_FALSE "false"
+#define KEYWORD_NULL "null"
 
-typedef enum _TokenType {
+typedef enum _TokenType
+{
 	// Syntax Tokens
 
 	TOKEN_TYPE_COMMA,
@@ -42,15 +43,16 @@ typedef enum _TokenType {
 	TOKEN_TYPE_STRING
 } TokenType;
 
-typedef struct _Token {
+typedef struct _Token
+{
 	TokenType type;
-	char* value;
+	char *value;
 } Token;
 
 // Create a new Token
 
-Token token_init(TokenType type, char* value);
+Token token_init(TokenType type, char *value);
 
 // Get the string representation of a TokenType (for debugging)
 
-char* token_type_to_string(TokenType type);
+char *token_type_to_string(TokenType type);
