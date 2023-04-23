@@ -9,10 +9,10 @@
 
 #define NUMBER_DO_MATHS(num, _operator, amount)		\
 	if (num->type == NUMBER_TYPE_INT) {				\
-		num->data._int _operator= amount;			\
+		num->data._int _operator ##= amount;			\
 	}												\
 	else if (num->type == NUMBER_TYPE_FLOAT) {		\
-		num->data._float _operator= amount;			\
+		num->data._float _operator ##= amount;			\
 	}
 
 #define NUMBER_ADD(num, amount)						\
