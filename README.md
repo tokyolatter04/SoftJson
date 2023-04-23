@@ -1,7 +1,8 @@
 # SoftJson
 
 ## About
-This is a JSON parser written in C for parsing JSON data. It includes error handling with information about the error that occurred. This parser currently does not support unicode
+
+This is a JSON parser written in C for parsing JSON data. It includes error handling with information about the error that occurred. All contributions are welcome, no matter how small
 
 ## Features
 
@@ -13,16 +14,13 @@ This is a JSON parser written in C for parsing JSON data. It includes error hand
 - Efficient and fast parsing
 - Memory cleanup
 - Customise Hardware Priority
-- Currently does NOT support unicode
+
+This JSON parser is optimised to be fast, this is done by allocating a large buffer of memory for different objects and moving data into it. This decreases the total amount of memory allocations while storing JSON data. However, not all of this buffer is filled, which causes wasted memory. The parser supports being set to a memory efficient mode by calling `soft_set_engine_mode(JsonMode mode)`. This will make the parser significantly slower, but will result in less memory being wasted
 
 ## Todo
 
 - Add unicode support
 - Functions for comparing JsonValues, JsonObject and JsonLists
-
-## Hardware Priority
-
-This JSON parser is optimised to be fast, this is done by allocating a large buffer of memory for different objects and moving data into it. This decreases the total amount of memory allocations while storing JSON data. However, not all of this buffer is filled, which causes wasted memory. The parser supports being set to a memory efficient mode by calling `soft_set_engine_mode(JsonMode mode)`. This will make the parser significantly slower, but will result in less memory being wasted
 
 ## Examples
 
