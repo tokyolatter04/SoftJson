@@ -15,4 +15,4 @@ typedef enum _JsonMode {
 	JSON_MODE_PRIORITY_MEMORY
 } JsonMode;
 
-JsonMode json_mode;
+extern JsonMode json_mode;
