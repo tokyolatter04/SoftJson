@@ -107,7 +107,7 @@ uint8 string_to_number(char* string, Number* num) {
 				*/
 
 				NUMBER_MULTIPLY(num, 10);
-				NUMBER_ADD(num, string[i] - '0');
+				NUMBER_ADD(num, (int64)(string[i] - '0'));
 
 				break;
 			}
