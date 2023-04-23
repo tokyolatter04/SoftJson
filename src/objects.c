@@ -53,7 +53,7 @@ bool8 json_object_get_value(JsonObject* object, const char* key, struct _JsonVal
 //////////////////////////////////
 
 JsonList json_create_list() {
-	return json_value_list_init(sizeof(JsonValue), 0);
+	return json_value_list_init(0);
 }
 
 void json_list_add(JsonList* list, struct _JsonValue value) {
