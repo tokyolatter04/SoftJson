@@ -159,7 +159,7 @@ uint8 string_to_number(char* string, Number* num) {
 		}
 
 		for (; char_is_number(string[i]); i++) {
-			euler_int += (euler_int * 10) + string[i] - '0';
+			euler_int += (euler_int * 10) + (int64)(string[i] - '0');
 		}
 
 		if (euler_sign == 0) {
